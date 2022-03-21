@@ -21,10 +21,11 @@
 
       <div class="row">
         <div class="span12">
-          <h2>Online PGP</h2>
-          <p>Runs completely in the browser.</p>
-          
-          <p><input class="form-control" value="12" id="passphrase" placeholder="passphase" /></p>
+          <h2>Open PGP</h2>
+          <div class="block">
+            <h4>Passphrase</h4>
+            <p><input class="form-control" value="" id="passphrase" /></p>
+          </div>
 
           <div class="accordion" id="accordion2">
             <div class="accordion-group">
@@ -169,6 +170,11 @@ Here is my secret message</textarea
                       id="dec-privkey"
                     ></textarea>
                   </div>
+                  <div class="block">
+                    <h4>Decrypted message</h4>
+                    <p id="decrypted-message"></p>
+                  </div>
+        
                 </div>
               </div>
             </div>

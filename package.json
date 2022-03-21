@@ -4,7 +4,7 @@
   "description": "Updated version of webencrypt.org/openpgpjs/",
   "main": "src/main.js",
   "scripts": {
-    "watch": "rollup --config --watch",
+    "start": "rollup --config --watch",
     "build": "rollup --config"
   },
   "author": "",

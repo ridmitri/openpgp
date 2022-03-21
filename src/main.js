@@ -87,6 +87,7 @@ function decrypt() {
     });
     console.log(decrypted); // 'Hello, World!'
     // check signature validity (signed messages only)
+    $("#decrypted-message").text(decrypted);
     try {
       await signatures[0].verified; // throws on invalid signature
       console.log("Signature is valid");

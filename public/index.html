@@ -1,43 +1,180 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- saved from url=(0045) -->
+<html>
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <link href="./lib/bootstrap-combined.min.css" rel="stylesheet" />
+    <title>Online PGP</title>
+    <script src="./lib/jquery-1.10.0.js"></script>
+    <script src="./lib/bootstrap.min.js"></script>
+    <script
+      src="./lib/openpgp.min.js"
+      type="text/javascript"
+      charset="utf-8"
+    ></script>
+    <script src="./bundle.js" type="text/javascript" charset="utf-8"></script>
   </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <body style="">
+    <div class="container">
+      <div class="row">&nbsp;</div>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+      <div class="row">
+        <div class="span12">
+          <h2>Online PGP</h2>
+          <p>Runs completely in the browser.</p>
+          
+          <p><input class="form-control" value="12" id="passphrase" placeholder="passphase" /></p>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+          <div class="accordion" id="accordion2">
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a
+                  class="accordion-toggle"
+                  data-toggle="collapse"
+                  data-parent="#accordion2"
+                  href="#collapseOne"
+                >
+                  Generate PGP Keys
+                </a>
+              </div>
+              <div
+                id="collapseOne"
+                class="accordion-body collapse"
+                style="height: 0px"
+              >
+                <div class="accordion-inner">
+                  <div class="block">
+                    <br />
+                    <button name="generate">Generate Keys</button>
+                  </div>
+                  <div class="block">
+                    <h4>Public key</h4>
+                    <textarea
+                      style="
+                        width: 520px;
+                        height: 260px;
+                        font-family: monospace;
+                      "
+                      id="pubgenkey"
+                    ></textarea>
+                    <h4>Private key</h4>
+                    <textarea
+                      style="
+                        width: 520px;
+                        height: 340px;
+                        font-family: monospace;
+                      "
+                      id="privgenkey"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a
+                  class="accordion-toggle"
+                  data-toggle="collapse"
+                  data-parent="#accordion2"
+                  href="#collapseTwo"
+                >
+                  Encrypt a Message
+                </a>
+              </div>
+              <div
+                id="collapseTwo"
+                class="accordion-body in collapse"
+                style="height: auto"
+              >
+                <div class="accordion-inner">
+                  <div id="title">
+                    <p>Encrypt a message</p>
+                  </div>
+                  <div class="block">
+                    <p>Your message:</p>
+                    <textarea
+                      style="
+                        width: 520px;
+                        height: 240px;
+                        font-family: monospace;
+                      "
+                      name="message"
+                      rows="16"
+                      cols="80"
+                      id="message"
+                    >
+Here is my secret message</textarea
+                    >
+                    <br />
+                    <button name="encrypt">Encrypt</button>
+                  </div>
+                  <div class="block">
+                    <h2>Our public key</h2>
+                    <textarea
+                      style="
+                        width: 520px;
+                        height: 240px;
+                        font-family: monospace;
+                      "
+                      rows="16"
+                      cols="80"
+                      id="pubkey"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a
+                  class="accordion-toggle"
+                  data-toggle="collapse"
+                  data-parent="#accordion2"
+                  href="#collapseThree"
+                >
+                  Decrypt a Message
+                </a>
+              </div>
+              <div id="collapseThree" class="accordion-body collapse">
+                <div class="accordion-inner">
+                  <div class="block">
+                    <p>Your encrypted message:</p>
+                    <textarea
+                      name="message"
+                      style="
+                        width: 520px;
+                        height: 240px;
+                        font-family: monospace;
+                      "
+                      rows="16"
+                      cols="80"
+                      id="dec-message"
+                    ></textarea>
+                    <br />
+                    <button name="decrypt">Decrypt Message</button>
+                  </div>
+                  <div class="block">
+                    <h2>Your private key</h2>
+                    <textarea
+                      rows="16"
+                      style="
+                        width: 520px;
+                        height: 340px;
+                        font-family: monospace;
+                      "
+                      cols="80"
+                      id="dec-privkey"
+                    ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

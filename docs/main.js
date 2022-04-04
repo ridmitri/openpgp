@@ -11,8 +11,17 @@ $(() => {
   });
 });
 
+function lock() {
+  $(".lock").addClass("visible");
+}
+
+function unlock() {
+  $(".lock").removeClass("visible");
+}
+
 function generate() {
   (async () => {
+    lock();
     const passphrase = $("#passphrase").val();
     const ids = $("#user_ids").val() || "Adam <adam@cloud.com>";
 
@@ -48,22 +57,39 @@ function generate() {
     $("#enc-privkey").val(privateKey);
     $("#dec-privkey").val(privateKey);
 
+    const rqOptions = {
+      width: 256,
+      height: 256,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+    };
+
+    // test view
     new QRCode("qrcode", {
+      ...rqOptions,
       text: privateKey,
-      width: 256,
-      height: 256,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H,
     });
-    new QRCode("qr_print", {
+
+    //print view
+    new QRCode("qr_priv_1", {
       text: privateKey,
-      width: 256,
-      height: 256,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H,
+      ...rqOptions,
     });
+    new QRCode("qr_priv_2", {
+      text: privateKey,
+      ...rqOptions,
+    });
+    new QRCode("qr_pub_1", {
+      text: publicKey,
+      ...rqOptions,
+    });
+    new QRCode("qr_pub_2", {
+      text: publicKey,
+      ...rqOptions,
+    });
+
+    unlock();
   })();
   return false;
 }

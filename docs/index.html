@@ -14,6 +14,7 @@
     <script src="./main.js"></script>
   </head>
   <body style="">
+    <div class="lock">Please wait...</div>
     <div class="container">
       <div class="row">&nbsp;</div>
 
@@ -22,8 +23,24 @@
           <h2>Open PGP (ecc, curve25519)</h2>
         </div>
         <div class="span12 print">
-          <h4>Private key</h4>
-          <div class="qrcode-print" id="qr_print"></div>
+          <table class="prints">
+            <tr>
+              <td><h4>Private key</h4></td>
+              <td><h4>Public key</h4></td>
+            </tr>
+            <tr>
+              <td><div id="qr_priv_1"></div></td>
+              <td><div id="qr_pub_1"></div></td>
+            </tr>
+            <tr>
+              <td><h4>Private key</h4></td>
+              <td><h4>Public key</h4></td>
+            </tr>
+            <tr>
+              <td><div id="qr_priv_2"></div></td>
+              <td><div id="qr_pub_2"></div></td>
+            </tr>
+          </table>
         </div>
         <div class="span12 noprint">
           <div class="block">

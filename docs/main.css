@@ -34,3 +34,34 @@ textarea:focus {
     display: none;
   }
 }
+
+.prints {
+  width: 100%;
+}
+
+.prints td {
+  width: 50%;
+}
+
+.prints h4 {
+  padding-top: 50px;
+}
+
+.lock {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 25%;
+  text-align: center;
+  font-size: 24px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  color: #fff;
+  display: none;
+}
+
+.lock.visible {
+  display: block;
+}

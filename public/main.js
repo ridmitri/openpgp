@@ -13,15 +13,12 @@ $(() => {
 
 function generate() {
   (async () => {
-    const passphrase = $("#passphrase").val() || '';
+    const passphrase = $("#passphrase").val();
     const ids = $("#user_ids").val() || "Adam <adam@cloud.com>";
 
     const userIDs = ids.split(",").map((item) => {
       const name = item.replace(/(.*)\s<.*/g, "$1").trim();
-      console.log(name);
       const email = item.replace(/(.*)\s<(.*)>/g, "$2").trim();
-      console.log(email);
-
       return {
         name,
         email,
@@ -47,8 +44,8 @@ function generate() {
     $("#dec-privkey").val(privateKey);
     $("#pubgenkey").val(publicKey);
     $("#pubkey").val(publicKey);
-    
-    new QRCode('qrcode', {
+
+    new QRCode("qrcode", {
       text: privateKey,
       width: 256,
       height: 256,
@@ -56,7 +53,6 @@ function generate() {
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H,
     });
-
   })();
   return false;
 }
@@ -68,12 +64,20 @@ function encrypt() {
 
     const passphrase = $("#passphrase").val();
     const privateKeyArmored = $("#dec-privkey").val();
-    const privateKey = await openpgp.decryptKey({
-      privateKey: await openpgp.readPrivateKey({
+
+    let privateKey = null;
+    if (passphrase) {
+      privateKey = await openpgp.decryptKey({
+        privateKey: await openpgp.readPrivateKey({
+          armoredKey: privateKeyArmored,
+        }),
+        passphrase,
+      });
+    } else {
+      privateKey = await openpgp.readPrivateKey({
         armoredKey: privateKeyArmored,
-      }),
-      passphrase,
-    });
+      });
+    }
 
     const text = $("#message").val();
 

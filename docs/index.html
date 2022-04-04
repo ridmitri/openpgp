@@ -19,7 +19,13 @@
 
       <div class="row">
         <div class="span12">
-          <h2>Open PGP</h2>
+          <h2>Open PGP (ecc, curve25519)</h2>
+        </div>
+        <div class="span12 print">
+          <h4>Private key</h4>
+          <div class="qrcode-print" id="qr_print"></div>
+        </div>
+        <div class="span12 noprint">
           <div class="block">
             <h4>Passphrase</h4>
             <p><input class="form-control" value="" id="passphrase" /></p>
@@ -63,7 +69,7 @@
                     <textarea id="privgenkey"></textarea>
                   </div>
                   <div class="block">
-                    <h4>Private key QR Code</h4>
+                    <h4>Private key QR Code for printing</h4>
                     <div
                       id="qrcode"
                       style="display: inline-block; margin-left: 16px"
@@ -140,12 +146,12 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="span12">
-          Source:
-          <a href="https://github.com/openpgpjs/openpgpjs">openpgpjs</a> |
-          <a href="https://webencrypt.org/openpgpjs/">webencrypt</a> |
-          <a href="https://github.com/davidshimjs/qrcodejs">qrcodejs</a>
+          <div class="block">
+            Source:
+            <a href="https://github.com/openpgpjs/openpgpjs">openpgpjs</a> |
+            <a href="https://webencrypt.org/openpgpjs/">webencrypt</a> |
+            <a href="https://github.com/davidshimjs/qrcodejs">qrcodejs</a>
+          </div>
         </div>
       </div>
     </div>

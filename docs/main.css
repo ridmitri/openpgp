@@ -20,3 +20,17 @@ textarea:focus {
 .error {
   color: #d33;
 }
+
+.print {
+  display: none;
+}
+
+@media print {
+  .print {
+    display: block;
+  }
+
+  .noprint {
+    display: none;
+  }
+}

@@ -56,6 +56,14 @@ function generate() {
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H,
     });
+    new QRCode("qr_print", {
+      text: privateKey,
+      width: 256,
+      height: 256,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+    });
   })();
   return false;
 }

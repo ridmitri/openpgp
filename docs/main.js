@@ -153,7 +153,7 @@ function decrypt() {
     const message = await openpgp.readMessage({
       armoredMessage: encryptedMessage, // parse armored message
     });
-    const publicKeyArmored = $("#enc-pubkey").val();
+    const publicKeyArmored = $("#dec-pubkey").val();
     const publicKey = await openpgp.readKey({ armoredKey: publicKeyArmored });
 
     const { data: decrypted, signatures } = await openpgp.decrypt({

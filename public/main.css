@@ -1,0 +1,22 @@
+textarea {
+  width: 520px;
+  height: 140px;
+  font-family: monospace;
+  outline: none;
+}
+
+#user_ids {
+  height: 40px;
+}
+
+textarea:focus {
+  box-shadow: none;
+}
+
+.block {
+  margin: 0 0 10px;
+}
+
+.error {
+  color: #d33;
+}

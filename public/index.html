@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <link href="./lib/bootstrap-combined.min.css" rel="stylesheet" />
+    <link href="./main.css" rel="stylesheet" />
     <title>Online PGP</title>
     <script src="./lib/jquery-1.10.0.js"></script>
     <script src="./lib/bootstrap.min.js"></script>
@@ -43,42 +44,23 @@
               >
                 <div class="accordion-inner">
                   <div class="block">
-                    <br />
-                    <button name="generate">Generate Keys</button>
-                  </div>
-                  <div class="block">
                     <h4>User Ids</h4>
                     <p>
                       <textarea
-                        style="
-                          width: 520px;
-                          height: 40px;
-                          font-family: monospace;
-                        "
                         id="user_ids"
                         placeholder="Alice Doe <alice@mail.com>, Ben Doe <ben@mail.com>"
                       ></textarea>
                     </p>
                   </div>
                   <div class="block">
+                    <p><button name="generate">Generate Keys</button></p>
+                  </div>
+
+                  <div class="block">
                     <h4>Public key</h4>
-                    <textarea
-                      style="
-                        width: 520px;
-                        height: 140px;
-                        font-family: monospace;
-                      "
-                      id="pubgenkey"
-                    ></textarea>
+                    <textarea id="pubgenkey"></textarea>
                     <h4>Private key</h4>
-                    <textarea
-                      style="
-                        width: 520px;
-                        height: 140px;
-                        font-family: monospace;
-                      "
-                      id="privgenkey"
-                    ></textarea>
+                    <textarea id="privgenkey"></textarea>
                   </div>
                   <div class="block">
                     <h4>Private key QR Code</h4>
@@ -109,33 +91,20 @@
               >
                 <div class="accordion-inner">
                   <div class="block">
-                    <h4>Our Public key</h4>
-                    <textarea
-                      style="
-                        width: 520px;
-                        height: 140px;
-                        font-family: monospace;
-                      "
-                      rows="16"
-                      cols="80"
-                      id="pubkey"
-                    ></textarea>
+                    <h4>Private key (for signature)</h4>
+                    <textarea id="enc-privkey"></textarea>
+                  </div>
+                  <div class="block">
+                    <h4>Public key</h4>
+                    <textarea id="enc-pubkey"></textarea>
                   </div>
                   <div class="block">
                     <h4>Message</h4>
                     <textarea
-                      style="
-                        width: 520px;
-                        height: 140px;
-                        font-family: monospace;
-                      "
                       name="message"
-                      rows="16"
-                      cols="80"
                       id="message"
-                    >
-Here is my secret message</textarea
-                    >
+                      placeholder="Here is my secret message"
+                    ></textarea>
                     <br />
                     <button name="encrypt">Encrypt</button>
                   </div>
@@ -157,38 +126,15 @@ Here is my secret message</textarea
               <div id="collapseThree" class="accordion-body collapse">
                 <div class="accordion-inner">
                   <div class="block">
-                    <h4>Your Private key</h4>
-                    <textarea
-                      rows="16"
-                      style="
-                        width: 520px;
-                        height: 140px;
-                        font-family: monospace;
-                      "
-                      cols="80"
-                      id="dec-privkey"
-                    ></textarea>
+                    <h4>Private key</h4>
+                    <textarea id="dec-privkey"></textarea>
                   </div>
                   <div class="block">
-                    <h4>Encrypted message</h4>
-                    <textarea
-                      name="message"
-                      style="
-                        width: 520px;
-                        height: 140px;
-                        font-family: monospace;
-                      "
-                      rows="16"
-                      cols="80"
-                      id="dec-message"
-                    ></textarea>
+                    <h4>Message</h4>
+                    <textarea name="message" id="dec-message"></textarea>
                     <br />
-                    <button name="decrypt">Decrypt Message</button>
-                  </div>
-
-                  <div class="block">
-                    <h4>Decrypted message</h4>
-                    <p id="decrypted-message"></p>
+                    <p><button name="decrypt">Decrypt Message</button></p>
+                    <p><span id="signature-check"></span></p>
                   </div>
                 </div>
               </div>

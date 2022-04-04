@@ -3,10 +3,10 @@ $(() => {
     generate();
   });
 
-  $('button[name="encrypt"]').click(function () {
+  $('button[name="encrypt"]').click(() => {
     encrypt();
   });
-  $('button[name="decrypt"]').click(function () {
+  $('button[name="decrypt"]').click(() => {
     decrypt();
   });
 });
@@ -41,9 +41,12 @@ function generate() {
     console.log(publicKey); // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
     console.log(revocationCertificate); // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
     $("#privgenkey").val(privateKey);
-    $("#dec-privkey").val(privateKey);
     $("#pubgenkey").val(publicKey);
-    $("#pubkey").val(publicKey);
+
+    // paste
+    $("#enc-pubkey").val(publicKey);
+    $("#enc-privkey").val(privateKey);
+    $("#dec-privkey").val(privateKey);
 
     new QRCode("qrcode", {
       text: privateKey,
@@ -59,11 +62,11 @@ function generate() {
 
 function encrypt() {
   (async () => {
-    const publicKeyArmored = $("#pubkey").val();
+    const publicKeyArmored = $("#enc-pubkey").val();
     const publicKey = await openpgp.readKey({ armoredKey: publicKeyArmored });
 
     const passphrase = $("#passphrase").val();
-    const privateKeyArmored = $("#dec-privkey").val();
+    const privateKeyArmored = $("#enc-privkey").val();
 
     let privateKey = null;
     if (passphrase) {
@@ -88,7 +91,6 @@ function encrypt() {
     });
     console.log(encrypted); // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
     $("#message").val(encrypted);
-    $("#dec-message").val(encrypted);
   })();
   return false;
 }
@@ -97,18 +99,27 @@ function decrypt() {
   (async () => {
     const passphrase = $("#passphrase").val();
     const privateKeyArmored = $("#dec-privkey").val();
-    const privateKey = await openpgp.decryptKey({
-      privateKey: await openpgp.readPrivateKey({
+
+    let privateKey = null;
+    if (passphrase) {
+      privateKey = await openpgp.decryptKey({
+        privateKey: await openpgp.readPrivateKey({
+          armoredKey: privateKeyArmored,
+        }),
+        passphrase,
+      });
+    } else {
+      privateKey = await openpgp.readPrivateKey({
         armoredKey: privateKeyArmored,
-      }),
-      passphrase,
-    });
+      });
+    }
+
     const encryptedMessage = $("#dec-message").val();
 
     const message = await openpgp.readMessage({
       armoredMessage: encryptedMessage, // parse armored message
     });
-    const publicKeyArmored = $("#pubkey").val();
+    const publicKeyArmored = $("#enc-pubkey").val();
     const publicKey = await openpgp.readKey({ armoredKey: publicKeyArmored });
 
     const { data: decrypted, signatures } = await openpgp.decrypt({
@@ -118,11 +129,15 @@ function decrypt() {
     });
     console.log(decrypted); // 'Hello, World!'
     // check signature validity (signed messages only)
-    $("#decrypted-message").text(decrypted);
+    $("#dec-message").val(decrypted);
     try {
       await signatures[0].verified; // throws on invalid signature
       console.log("Signature is valid");
+      $("#signature-check").text("Signature is valid").removeClass("error");
     } catch (e) {
+      $("#signature-check")
+        .addClass("error")
+        .text("Signature could not be verified!");
       throw new Error("Signature could not be verified: " + e.message);
     }
   })();

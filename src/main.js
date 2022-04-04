@@ -5,20 +5,37 @@ $(() => {
 
   $('button[name="encrypt"]').click(function () {
     encrypt();
-    // this.disabled = true;
   });
   $('button[name="decrypt"]').click(function () {
     decrypt();
-    // this.disabled = true;
   });
 });
 
 function generate() {
   (async () => {
-    const passphrase = $("#passphrase").val();
+    const passphrase = $("#passphrase").val() || '';
+    const ids = $("#user_ids").val() || "Adam <adam@cloud.com>";
+
+    const userIDs = ids.split(",").map((item) => {
+      const name = item.replace(/(.*)\s<.*/g, "$1").trim();
+      console.log(name);
+      const email = item.replace(/(.*)\s<(.*)>/g, "$2").trim();
+      console.log(email);
+
+      return {
+        name,
+        email,
+      };
+    });
+
+    console.log(userIDs);
+
     const { privateKey, publicKey, revocationCertificate } =
       await openpgp.generateKey({
-        userIDs: [{ name: "Jon Smith", email: "jon@example.com" }], // you can pass multiple user IDs
+        type: "ecc", // Type of the key, defaults to ECC
+        curve: "curve25519", // ECC curve name, defaults to curve25519
+
+        userIDs, // you can pass multiple user IDs
         passphrase, // protects the private key
         format: "armored", // output key format, defaults to 'armored' (other options: 'binary' or 'object')
       });
@@ -30,6 +47,16 @@ function generate() {
     $("#dec-privkey").val(privateKey);
     $("#pubgenkey").val(publicKey);
     $("#pubkey").val(publicKey);
+    
+    new QRCode('qrcode', {
+      text: privateKey,
+      width: 256,
+      height: 256,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+
   })();
   return false;
 }

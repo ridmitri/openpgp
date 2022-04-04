@@ -5,7 +5,7 @@ export default {
     clearScreen: false,
   },
   output: {
-    file: "public/bundle.js",
+    file: "public/build/bundle.js",
     format: "es",
   },
   plugins: [],

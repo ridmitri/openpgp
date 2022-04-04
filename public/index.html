@@ -8,12 +8,9 @@
     <title>Online PGP</title>
     <script src="./lib/jquery-1.10.0.js"></script>
     <script src="./lib/bootstrap.min.js"></script>
-    <script
-      src="./lib/openpgp.min.js"
-      type="text/javascript"
-      charset="utf-8"
-    ></script>
-    <script src="./bundle.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./lib/openpgp.min.js"></script>
+    <script src="./lib/qrcode.js"></script>
+    <script src="./build/bundle.js"></script>
   </head>
   <body style="">
     <div class="container">
@@ -25,6 +22,7 @@
           <div class="block">
             <h4>Passphrase</h4>
             <p><input class="form-control" value="" id="passphrase" /></p>
+            <p><div id="qrcode"></div></p>
           </div>
 
           <div class="accordion" id="accordion2">
@@ -48,6 +46,20 @@
                   <div class="block">
                     <br />
                     <button name="generate">Generate Keys</button>
+                  </div>
+                  <div class="block">
+                    <h4>User Ids</h4>
+                    <p>
+                      <textarea
+                        style="
+                          width: 520px;
+                          height: 100px;
+                          font-family: monospace;
+                        "
+                        id="user_ids"
+                        placeholder="Alice Doe <alice@mail.com>, Ben Doe <ben@mail.com>"
+                      ></textarea>
+                    </p>
                   </div>
                   <div class="block">
                     <h4>Public key</h4>
@@ -174,7 +186,6 @@ Here is my secret message</textarea
                     <h4>Decrypted message</h4>
                     <p id="decrypted-message"></p>
                   </div>
-        
                 </div>
               </div>
             </div>

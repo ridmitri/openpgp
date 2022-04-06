@@ -65,3 +65,61 @@ textarea:focus {
 .lock.visible {
   display: block;
 }
+
+.block-generate {
+  margin-bottom: 24px;
+}
+
+.block-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.block-checkbox h4 {
+  margin: 0;
+}
+
+.block-checkbox input,
+.block-checkbox label {
+  margin: 0 8px 0 0 !important;
+}
+
+body.gen-passphrase #passphrase {
+  display: block;
+}
+
+#passphrase {
+  display: none;
+}
+
+body.enc-signature #enc-privkey {
+  display: block;
+}
+
+#enc-privkey {
+  display: none;
+}
+
+body.dec-signature #dec-pubkey {
+  display: block;
+}
+
+#dec-pubkey {
+  display: none;
+}
+
+body.enc-passphrase-check #enc_passphrase {
+  display: block;
+}
+
+#enc_passphrase {
+  display: none;
+}
+
+body.dec-passphrase-check #dec_passphrase {
+  display: block;
+}
+
+#dec_passphrase {
+  display: none;
+}

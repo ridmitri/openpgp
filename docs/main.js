@@ -9,6 +9,22 @@ $(() => {
   $('button[name="decrypt"]').click(() => {
     decrypt();
   });
+
+  $("#passphrase_check").click(function () {
+    $("body").toggleClass("gen-passphrase", this.checked);
+  });
+  $("#enc_signature").click(function () {
+    $("body").toggleClass("enc-signature", this.checked);
+  });
+  $("#dec_signature").click(function () {
+    $("body").toggleClass("dec-signature", this.checked);
+  });
+  $("#enc_passphrase_check").click(function () {
+    $("body").toggleClass("enc-passphrase-check", this.checked);
+  });
+  $("#dec_passphrase_check").click(function () {
+    $("body").toggleClass("dec-passphrase-check", this.checked);
+  });
 });
 
 function lock() {
@@ -22,6 +38,7 @@ function unlock() {
 function generate() {
   (async () => {
     lock();
+
     const passphrase = $("#passphrase").val();
     const ids = $("#user_ids").val() || "Adam <adam@cloud.com>";
 
@@ -56,6 +73,9 @@ function generate() {
     $("#enc-pubkey").val(publicKey);
     $("#enc-privkey").val(privateKey);
     $("#dec-privkey").val(privateKey);
+    $("#dec-pubkey").val(publicKey);
+    $("#enc_passphrase").val(passphrase);
+    $("#dec_passphrase").val(passphrase);
 
     const rqOptions = {
       width: 256,
@@ -99,21 +119,22 @@ function encrypt() {
     const publicKeyArmored = $("#enc-pubkey").val();
     const publicKey = await openpgp.readKey({ armoredKey: publicKeyArmored });
 
-    const passphrase = $("#passphrase").val();
+    const passphrase = $("#enc_passphrase").val();
     const privateKeyArmored = $("#enc-privkey").val();
 
+    const hasSignature = $("#enc_signature")[0].checked;
+
     let privateKey = null;
-    if (passphrase) {
-      privateKey = await openpgp.decryptKey({
-        privateKey: await openpgp.readPrivateKey({
-          armoredKey: privateKeyArmored,
-        }),
-        passphrase,
-      });
-    } else {
+    if (hasSignature) {
       privateKey = await openpgp.readPrivateKey({
         armoredKey: privateKeyArmored,
       });
+      if (passphrase) {
+        privateKey = await openpgp.decryptKey({
+          privateKey,
+          passphrase,
+        });
+      }
     }
 
     const text = $("#message").val();
@@ -121,7 +142,7 @@ function encrypt() {
     const encrypted = await openpgp.encrypt({
       message: await openpgp.createMessage({ text }), // input as Message object
       encryptionKeys: publicKey,
-      signingKeys: privateKey, // optional
+      signingKeys: hasSignature ? privateKey : undefined, // optional
     });
     console.log(encrypted); // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
     $("#message").val(encrypted);
@@ -131,20 +152,17 @@ function encrypt() {
 
 function decrypt() {
   (async () => {
-    const passphrase = $("#passphrase").val();
+    const passphrase = $("#dec_passphrase").val();
     const privateKeyArmored = $("#dec-privkey").val();
+    const hasSignature = $("#dec_signature")[0].checked;
 
-    let privateKey = null;
+    let privateKey = await openpgp.readPrivateKey({
+      armoredKey: privateKeyArmored,
+    });
     if (passphrase) {
       privateKey = await openpgp.decryptKey({
-        privateKey: await openpgp.readPrivateKey({
-          armoredKey: privateKeyArmored,
-        }),
+        privateKey,
         passphrase,
-      });
-    } else {
-      privateKey = await openpgp.readPrivateKey({
-        armoredKey: privateKeyArmored,
       });
     }
 
@@ -153,26 +171,31 @@ function decrypt() {
     const message = await openpgp.readMessage({
       armoredMessage: encryptedMessage, // parse armored message
     });
-    const publicKeyArmored = $("#dec-pubkey").val();
-    const publicKey = await openpgp.readKey({ armoredKey: publicKeyArmored });
+
+    let publicKey = null;
+    if (hasSignature) {
+      const publicKeyArmored = $("#dec-pubkey").val();
+      publicKey = await openpgp.readKey({ armoredKey: publicKeyArmored });
+    }
 
     const { data: decrypted, signatures } = await openpgp.decrypt({
       message,
-      verificationKeys: publicKey, // optional
+      verificationKeys: hasSignature ? publicKey : undefined, // optional
       decryptionKeys: privateKey,
     });
     console.log(decrypted); // 'Hello, World!'
     // check signature validity (signed messages only)
     $("#dec-message").val(decrypted);
-    try {
-      await signatures[0].verified; // throws on invalid signature
-      console.log("Signature is valid");
-      $("#signature-check").text("Signature is valid").removeClass("error");
-    } catch (e) {
-      $("#signature-check")
-        .addClass("error")
-        .text("Signature could not be verified!");
-      throw new Error("Signature could not be verified: " + e.message);
+
+    if (hasSignature) {
+      try {
+        await signatures[0].verified; // throws on invalid signature
+        console.log("Signature is valid");
+        $("#signature-check").text("Signature is valid").removeClass("error");
+      } catch (e) {
+        $("#signature-check").text("Signature could not be verified").addClass("error");
+        throw new Error("Signature could not be verified: " + e.message);
+      }
     }
   })();
 }

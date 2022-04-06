@@ -43,11 +43,6 @@
           </table>
         </div>
         <div class="span12 noprint">
-          <div class="block">
-            <h4>Passphrase</h4>
-            <p><input class="form-control" value="" id="passphrase" /></p>
-          </div>
-
           <div class="accordion" id="accordion2">
             <div class="accordion-group">
               <div class="accordion-heading">
@@ -75,8 +70,20 @@
                       ></textarea>
                     </p>
                   </div>
+                  <div class="block block-checkbox">
+                    <input
+                      type="checkbox"
+                      id="passphrase_check"
+                      class="form-check-input"
+                    />
+                    <label for="passphrase_check"><h4>Passphrase</h4></label>
+                  </div>
                   <div class="block">
-                    <p><button name="generate">Generate Keys</button></p>
+                    <input class="form-control" value="" id="passphrase" />
+                  </div>
+
+                  <div class="block block-generate">
+                    <button name="generate">Generate Keys</button>
                   </div>
 
                   <div class="block">
@@ -87,10 +94,7 @@
                   </div>
                   <div class="block">
                     <h4>Private key QR Code for printing</h4>
-                    <div
-                      id="qrcode"
-                      style="display: inline-block; margin-left: 16px"
-                    ></div>
+                    <div id="qrcode"></div>
                   </div>
                 </div>
               </div>
@@ -113,14 +117,37 @@
                 style="height: auto"
               >
                 <div class="accordion-inner">
+                  <div class="block block-checkbox">
+                    <input
+                      type="checkbox"
+                      id="enc_signature"
+                      class="form-check-input"
+                    />
+                    <label for="enc_signature"
+                      ><h4>Signature (Private key)</h4></label
+                    >
+                  </div>
+                  <div class="block">
+                    <textarea id="enc-privkey"></textarea>
+                  </div>
+                  <div class="block block-checkbox" id="enc_passphrase_block">
+                    <input
+                      type="checkbox"
+                      id="enc_passphrase_check"
+                      class="form-check-input"
+                    />
+                    <label for="enc_passphrase_check"
+                      ><h4>Passphrase</h4></label
+                    >
+                  </div>
+                  <div class="block">
+                    <input class="form-control" value="" id="enc_passphrase" />
+                  </div>
                   <div class="block">
                     <h4>Public key</h4>
                     <textarea id="enc-pubkey"></textarea>
                   </div>
-                  <div class="block">
-                    <h4>Private key (for signature)</h4>
-                    <textarea id="enc-privkey"></textarea>
-                  </div>
+
                   <div class="block">
                     <h4>Message</h4>
                     <textarea
@@ -131,6 +158,8 @@
                     <br />
                     <button name="encrypt">Encrypt</button>
                   </div>
+
+                  <div class="block block-error" id="enc-error"></div>
                 </div>
               </div>
             </div>
@@ -148,9 +177,31 @@
               </div>
               <div id="collapseThree" class="accordion-body collapse">
                 <div class="accordion-inner">
+                  <div class="block block-checkbox">
+                    <input
+                      type="checkbox"
+                      id="dec_signature"
+                      class="form-check-input"
+                    />
+                    <label for="dec_signature"
+                      ><h4>Signature verification (Public key)</h4></label
+                    >
+                  </div>
                   <div class="block">
-                    <h4>Public key</h4>
                     <textarea id="dec-pubkey"></textarea>
+                  </div>
+                  <div class="block block-checkbox">
+                    <input
+                      type="checkbox"
+                      id="dec_passphrase_check"
+                      class="form-check-input"
+                    />
+                    <label for="dec_passphrase_check"
+                      ><h4>Passphrase</h4></label
+                    >
+                  </div>
+                  <div class="block">
+                    <input class="form-control" value="" id="dec_passphrase" />
                   </div>
                   <div class="block">
                     <h4>Private key</h4>
@@ -163,6 +214,7 @@
                     <p><button name="decrypt">Decrypt Message</button></p>
                     <p><span id="signature-check"></span></p>
                   </div>
+                  <div class="block block-error" id="dec-error"></div>
                 </div>
               </div>
             </div>
